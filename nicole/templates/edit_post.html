@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+
+{% block title %}Eric Evans's Weblog{% endblock %}
+
+{% block header %}<h1>Editing...</h1>{% endblock %}
+
+{% block content %}
+    {% if entry %}
+    <fieldset id="preview">
+        <legend>Preview (<a href="#editor">skip</a>)</legend>
+        <h1>{{ entry.title }}</h1>
+        {{ entry.content_html|safe }}
+    </fieldset>
+    {% endif %}
+    <div id="editor">
+        <form action="{% url save entry.id %}" method="POST">
+            <table>
+                <tr><td>{{ form.title }}{{ form.title.errors }}</td></tr>
+                <tr><td>{{ form.content }}{{ form.content.errors }}</td></tr>
+                <tr><td>{{ form.tags }}{{ form.tags.errors }} Tags (space 
+                        delimited)</td></tr>
+            </table>
+            <p>
+                <input type="submit" name="save" value="Save" />
+                <input type="submit" name="publish" value="Publish" />
+                <input type="submit" name="quit" value="Cancel" />
+                {{ form.entry_id }}
+            </p>
+        </form>
+    </div>
+{% endblock %}
+
+<!-- 
+vi: ai sw=4 ts=4 tw=0 et
+-->

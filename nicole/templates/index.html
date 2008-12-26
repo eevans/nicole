@@ -1,0 +1,69 @@
+
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}Eric Evans' Weblog{% endblock %}
+
+{% block sidebar %}
+<div id="sidebar">
+    <h2>Categories</h2>
+    <ul>
+    {% for tag in tags %}
+        <li><a href="?tag={{ tag.name }}">
+            {{ tag.name }} ({{ tag.count }})</a></li>
+    {% endfor %}
+    </ul>
+
+    <h2>Archives</h2>
+    <ul>
+    {% for sect in archives %}
+        <li><a href="{% url month sect.1.0,sect.1.1 %}">
+            {{ sect.0 }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <h2>Feeds</h2>
+    <ul>
+        <li><a href="/feeds/rss2_0">RSS 2</a></li>
+        <li><a href="/feeds/atom0_3">Atom 0.3</a></li>
+        <li><a href="/feeds/atom1_0">Atom 1.0</a></li>
+    </ul>
+    <p>Valid: <a href="http://validator.w3.org/check/referer">HTML</a>,
+        <a href="http://jigsaw.w3.org/css-validator/check/referer">
+            CSS</a>.</p>
+</div><!-- end sidebar -->
+{% endblock %}
+
+{% block content %}
+<div class="articles">
+{% if entries %}
+    {% for entry in entries %}
+        <div class="article">
+            <h1><a class="title" href="{% url perma entry.permalink.0,entry.permalink.1,entry.permalink.2,entry.permalink.3 %}">{{ entry.title }}</a>
+            </h1>
+            <span class="articlemeta">
+                Posted {{ entry.posted_datestr }}
+            </span>
+            <p>{{ entry.content|markdown }}</p>
+            <span class="articlemeta">
+                Categories: {{ entry.tag_names_csv }}
+            </span>
+        {% ifequal user entry.author %}
+            <p class="articlemeta">
+                <a href="{% url edit entry.id %}">Edit</a>&nbsp;|&nbsp;
+                <a href="{% url remove entry.id %}">Remove</a>&nbsp;|&nbsp;
+                <a onClick="confirm_delete('{% url delete entry.id %}')"
+                    href="javascript:void(0)">Delete</a>
+            </p>
+        {% endifequal %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p><b>No articles to display.</b></p>
+{% endif %}
+</div><!-- end articles -->
+{% endblock %}
+
+<!-- 
+vi: ai sw=4 ts=4 tw=0 et
+-->

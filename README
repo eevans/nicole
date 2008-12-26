@@ -1,0 +1,5 @@
+
+ * Be sure to add a site to the database, and set SET_ID accordingly,
+   (or the full url in the feeds will be jacked up).
+ * You must add 'django.contrib.markup' to INSTALLED_APPS.
+ * Make sure you install markdown for python (python-markdown).

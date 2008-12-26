@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+
+{% block title %}Manage Blog Posts{% endblock %}
+
+{% block header %}<h1>Post Management</h1>{% endblock %}
+
+{% block sidebar %}
+<div id="sidebar">
+    <h2>Manage</h2>
+    <ul>
+        <li><a href="{% url index %}">Front Page</a></li>
+        <li><a href="{% url new %}">Create New Post</a></li>
+        <li><a href='{% url djadmin "" %}'>Django Administration</a></li>
+        <li><a href="{% url logout %}">Logout</a></li>
+    </ul>
+</div><!-- end sidebar -->
+{% endblock %}
+
+{% block content %}
+<div>
+    <fieldset>
+    <legend>Drafts</legend>
+    {% if drafts %}
+        <table>
+            <tr>
+              <th><label>Name</label></th>
+              <th><label>Created</label></th>
+              <th><label>Last Updated</label></th>
+              <th><label>&nbsp;</label></th>
+            </tr> 
+        {% for draft in drafts %}
+            <tr>
+              <td><a href="{% url edit draft.id %}">{{ draft.title }}</a></td>
+              <td>{{ draft.created_datetimestr }}</td>
+              <td>{{ draft.updated_datetimestr }}</td>
+              <td><a onClick="confirm_delete('{% url delete draft.id %}')" 
+                      href="javascript:void(0)">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p><b>There are currently no unpublished drafts.</b></p>
+    {% endif %}
+    </fieldset>
+</div>
+{% endblock %}
+
+<!-- 
+vi: ai sw=4 ts=4 tw=0 et
+-->
