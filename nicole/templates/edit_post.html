@@ -1,5 +1,6 @@
 
 {% extends "base.html" %}
+{% load markup %}
 
 {% block title %}Eric Evans's Weblog{% endblock %}
 
@@ -10,7 +11,7 @@
     <fieldset id="preview">
         <legend>Preview (<a href="#editor">skip</a>)</legend>
         <h1>{{ entry.title }}</h1>
-        {{ entry.content_html|safe }}
+        {{ entry.content|markdown }}
     </fieldset>
     {% endif %}
     <div id="editor">
