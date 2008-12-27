@@ -16,10 +16,39 @@
     <div id="editor">
         <form action="{% url save entry.id %}" method="POST">
             <table>
-                <tr><td>{{ form.title }}{{ form.title.errors }}</td></tr>
-                <tr><td>{{ form.content }}{{ form.content.errors }}</td></tr>
-                <tr><td>{{ form.tags }}{{ form.tags.errors }} Tags (space 
-                        delimited)</td></tr>
+                <tr>
+                    <td>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <!-- form submission errors -->
+                        {% for error in form.title.errors %}
+                            {{ error|escape }}
+                        {% endfor %}
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    {{ form.content }}
+                    {% if form.content.errors %}
+                        <!-- form submission errors -->
+                        {% for error in form.content.errors %}
+                            {{ error|escape }}
+                        {% endfor %}
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    {{ form.tags }} Tags (space delimited)&nbsp;
+                    {% if form.tags.errors %}
+                        <!-- form submission errors -->
+                        {% for error in form.tags.errors %}
+                            {{ error|escape }}
+                        {% endfor %}
+                    {% endif %}
+                    </td>
+                </tr>
             </table>
             <p>
                 <input type="submit" name="save" value="Save" />
