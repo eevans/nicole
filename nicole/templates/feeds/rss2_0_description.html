@@ -1,1 +1,2 @@
-{{ obj.content_html|safe }}
+{% load markup %}
+{{ obj.content|markdown }}
