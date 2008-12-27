@@ -9,8 +9,10 @@
     <h2>Categories</h2>
     <ul>
     {% for tag in tags %}
-        <li><a href="?tag={{ tag.name }}">
-            {{ tag.name }} ({{ tag.count }})</a></li>
+        {% if tag.count %}
+            <li><a href="?tag={{ tag.name }}">
+                {{ tag.name }} ({{ tag.count }})</a></li>
+        {% endif %}
     {% endfor %}
     </ul>
 
