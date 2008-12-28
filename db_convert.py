@@ -46,12 +46,12 @@ def main(dbconn, djuser):
         entry = BlogEntry(author=djuser, name=row['name'], title=row['title'],
             content=row['markdown'], published=row['published'])
         entry.save()
+        for tag in tags:
+            entry.tags.add(get_tag_instance(tag))
         entry.created = row['created']
         entry.updated = row['updated']
         entry.posted = row['posted']
         entry.save()
-        for tag in tags:
-            entry.tags.add(get_tag_instance(tag))
 
 if __name__ == '__main__':
     conn = sqlite3.connect('database.sqlite')

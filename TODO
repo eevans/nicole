@@ -5,3 +5,4 @@
   * Decouple page title and header (make configurable).
   * Needs the ability to add abritrary content to the sidebar.
   * Debian packaging.
+  * Should BlogEntry.get_absolute_url() being reversing index?

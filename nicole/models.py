@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Model, CharField, TextField, ForeignKey, \
         IntegerField, DateTimeField, BooleanField, ManyToManyField
+from datetime import datetime
 
 class Tag(Model):
     name = CharField(max_length=32, unique=True)
@@ -26,7 +27,7 @@ class BlogEntry(Model):
     markup = IntegerField(choices=MARKUP_CHOICES, default=1)
     created = DateTimeField(auto_now_add=True)
     posted = DateTimeField(null=True, blank=True)
-    updated = DateTimeField(auto_now=True)
+    updated = DateTimeField(auto_now_add=True, default=datetime.now)
     published = BooleanField(default=False)
     tags = ManyToManyField(Tag)
 

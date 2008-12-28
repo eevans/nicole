@@ -92,6 +92,7 @@ def save_post(request, idee):
                 entry = get_object_or_404(BlogEntry, pk=idee, author=author)
                 entry.title = form.cleaned_data['title']
                 entry.content = form.cleaned_data['content']
+                entry.updated = entry.updated.now()
             else:
                 entry = BlogEntry(author=author)
                 entry.title=form.cleaned_data['title']
