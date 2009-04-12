@@ -1,3 +1,15 @@
+Nicole
+======
+
+Requirements
+------------
+
+ * Python >= 2.5
+ * Django >= 1.0 (python-django)
+ * Markdown for Python >= 1.7 (python-markdown)
+
+Installation
+------------
 
  * Be sure to add a site to the database, and set SET_ID accordingly,
    (or the full url in the feeds will be jacked up).
