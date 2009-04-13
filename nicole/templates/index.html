@@ -9,10 +9,7 @@
     <h2>Categories</h2>
     <ul>
     {% for tag in tags %}
-        {% if tag.count %}
-            <li><a href="?tag={{ tag.name }}">
-                {{ tag.name }} ({{ tag.count }})</a></li>
-        {% endif %}
+        <li><a href="?tag={{ tag.name }}">{{ tag.name }}</a></li>
     {% endfor %}
     </ul>
 
@@ -49,7 +46,10 @@
             </span>
             <p>{{ entry.content|markdown }}</p>
             <span class="articlemeta">
-                Categories: {{ entry.tag_names_csv }}
+                Categories: 
+                {% for tag in entry.tags %}
+                    {{ tag.name }}
+                {% endfor %}
             </span>
         {% ifequal user entry.author %}
             <p class="articlemeta">

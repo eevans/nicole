@@ -4,9 +4,12 @@ from django.http       import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from datetime          import datetime
-from models            import BlogEntry, Tag
+from models            import BlogEntry
 from utils             import get_month_int_or_404, archives_by_month, flatten
 from forms             import BlogEntryForm
+from tagging.utils     import edit_string_for_tags
+from tagging.managers  import TaggedItem
+from tagging.models    import Tag
 
 # Public entries
 def _render_entries(request, entries):
@@ -24,17 +27,20 @@ def _get_published_entries(request, year=None, month=None, day=None):
     tagnames = request.GET.getlist('tag')
     filter_opts = dict(published=True)
 
-    if tagnames:
-        filter_opts['tags__in'] = Tag.objects.filter(name__in=tagnames)
-
     if year:
         filter_opts['posted__year'] = year
         if month: 
             filter_opts['posted__month'] = month
             if day: 
                 filter_opts['posted__day'] = day
-
-    return BlogEntry.objects.filter(**filter_opts)[:limit]
+    
+    if tagnames:
+        queryset = TaggedItem.objects.get_intersection_by_model(
+                BlogEntry.objects.filter(**filter_opts), tagnames)[:limit]
+    else:
+        queryset = BlogEntry.objects.filter(**filter_opts)[:limit]
+                
+    return queryset
 
 def index(request):
     entries = _get_published_entries(request)
@@ -75,8 +81,10 @@ def create_post(request):
 @login_required
 def edit_post(request, idee):
     entry = get_object_or_404(BlogEntry, pk=idee)
-    form = BlogEntryForm(dict(entry_id=entry.id, title=entry.title, 
-            content=entry.content, tags=entry.tag_names))
+    form = BlogEntryForm(
+        dict(entry_id=entry.id, title=entry.title, content=entry.content, 
+             tags=edit_string_for_tags(Tag.objects.get_for_object(entry)))
+    )
     return render_to_response('edit_post.html', {'form': form, 'entry': entry})
 
 @login_required
@@ -100,7 +108,7 @@ def save_post(request, idee):
                 entry.content = form.cleaned_data['content']
                 # We need a pk before settings tag_names below
                 entry.save()
-            entry.tag_names = form.cleaned_data['tags']
+            Tag.objects.update_tags(entry, form.cleaned_data['tags'])
             if submit == "publish":
                 entry.published = True
                 entry.posted = datetime.now()
@@ -122,6 +130,7 @@ def save_post(request, idee):
 @login_required
 def delete_post(request, idee):
     entry = get_object_or_404(BlogEntry, pk=idee, author=request.user)
+    del entry.tags
     entry.delete()
     return HttpResponseRedirect(reverse('admin'))
     

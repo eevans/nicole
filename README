@@ -7,6 +7,7 @@ Requirements
  * Python >= 2.5
  * Django >= 1.0 (python-django)
  * Markdown for Python >= 1.7 (python-markdown)
+ * django-tagging >= 0.2.1 (python-django-tagging)
 
 Installation
 ------------
@@ -14,4 +15,5 @@ Installation
  * Be sure to add a site to the database, and set SET_ID accordingly,
    (or the full url in the feeds will be jacked up).
  * You must add 'django.contrib.markup' to INSTALLED_APPS.
+ * You must add 'tagging' to INSTALLED_APPS.
  * Make sure you install markdown for python (python-markdown).

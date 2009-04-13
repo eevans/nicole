@@ -83,4 +83,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.markup',
     'homeslice.nicole',
+    'tagging',
 )
+
+FORCE_LOWERCASE_TAGS = True
