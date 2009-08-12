@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
 import sqlite3
-from nicole.models import BlogEntry, Tag
+from nicole.models import BlogEntry
 from django.contrib.auth.models import User
+from tagging.models import Tag
 
 def get_articles(dbconn):
     columns = ['id', 'title', 'name', 'created', 'posted', 'updated',
@@ -47,7 +48,7 @@ def main(dbconn, djuser):
             content=row['markdown'], published=row['published'])
         entry.save()
         for tag in tags:
-            entry.tags.add(get_tag_instance(tag))
+            Tag.objects.update_tags(entry, get_tag_instance(tag))
         entry.created = row['created']
         entry.updated = row['updated']
         entry.posted = row['posted']
