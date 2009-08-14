@@ -48,7 +48,7 @@ def main(dbconn, djuser):
             content=row['markdown'], published=row['published'])
         entry.save()
         for tag in tags:
-            Tag.objects.update_tags(entry, get_tag_instance(tag))
+            Tag.objects.add_tag(entry, get_tag_instance(tag))
         entry.created = row['created']
         entry.updated = row['updated']
         entry.posted = row['posted']
