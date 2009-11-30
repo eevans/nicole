@@ -1,11 +1,8 @@
 
   * Some urls are still absolute (style refs, feed links, etc)
-  * Try disabling the Sites middleware to see if the default is good enough.
   * Something better is needed for login/logout.
   * Decouple page title and header (make configurable).
-  * Needs the ability to add abritrary content to the sidebar.
-  * Should BlogEntry.get_absolute_url() be reversing index?
-  * Comma seperate tag names (i.e. Categories: foo, bar, baz)
+  * Need the ability to add abritrary content to the sidebar.
   * Display count next to tag/category.
 
   x The Atom feeds seems broken, doesn't display article.
